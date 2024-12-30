@@ -18,14 +18,14 @@ def myTime():
     zone = time.strftime('%Z')
 
     myText = hour + ':' + minute + ':' + second + ' ' + am_pm
-    myText2 = day + ", " + date + " " + zone 
+    myText2 = day + ", " + date + "\n" + zone 
 
 
     myLabel.config(text=myText)
     myLabel2.config(text=myText2)
     myLabel.after(1000, myTime)
 
-myLabel = Label(window, text="", font=('Calibri', 72), fg='Yellow', bg='Gray')
+myLabel = Label(window, text="", font=('Calibri', 72, "bold"), fg='Yellow', bg='Gray')
 myLabel.pack()
 myLabel2 = Label(window, text="", font=("Calicri", 24, "bold"), fg="Yellow", bg="Purple")
 myLabel2.pack()
