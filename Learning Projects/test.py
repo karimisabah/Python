@@ -9,6 +9,10 @@ window = Tk()
 window.title("Digital Clock")
 window.geometry("800x500")
 
+def get_user_location():
+    g = geocoder.ip("me")
+    latitude
+
 def myTime():
     hour = time.strftime("%I")
     minute = time.strftime("%M")
