@@ -9,15 +9,24 @@ window.title('Digital Clock')
 window.geometry('500x250')
 
 def myTime():
-    hour = time.strftime('%H')
-    minute = time.strftime( '%M')
-    second = time.strftime( '%S')
-    myText = hour + ':' + minute + ':' + second
+    hour = time.strftime('%I')
+    minute = time.strftime('%M')
+    second = time.strftime('%S')
+    am_pm = time.strftime('%p')
+    day = time.strftime('%A')
+    zone = time.strftime('%z')
+
+    myText = hour + ':' + minute + ':' + second + ' ' + am_pm
+    myText2 = day + ", " + zone
+
     myLabel.config(text=myText)
+    myLabel2.config(text=myText2)
     myLabel.after(1000, myTime)
 
-myLabel = Label(window, text="", font=('Calibri', 68), fg='Yellow', bg='Gray')
+myLabel = Label(window, text="", font=('Calibri', 72), fg='Yellow', bg='Gray')
 myLabel.pack()
+myLabel2 = Label(window, text="", font=("Calicri", 48, "bold"), fg="Yellow", bg="Purple")
+myLabel2.pack()
 
 myTime()
 
