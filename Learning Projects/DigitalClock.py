@@ -47,6 +47,9 @@ def myTime():
 
     myLabel.after(1000, myTime)
 
+def search_timezone(event):
+    query = search_entry.get().lower()
+
 timezones = pytz.all_timezones
 
 selected_timezone = StringVar()
