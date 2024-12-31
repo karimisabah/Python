@@ -83,7 +83,7 @@ window.geometry("800x600")
 myLabel = Label(window, text="", font=("Calibri", 72, "bold"), fg="Yellow", bg="Gray")
 myLabel.pack()
 
-myLabel2 = Label(window, text="", font=("Calibri", 24, "bold"), fg="Yellow", bg="Purple")
+myLabel2 = Label(window, text="", font=("Calibri", 34, "bold"), fg="Yellow", bg="Purple")
 myLabel2.pack(pady=10)
 
 # لیبل ساعت منطقه انتخاب‌شده
