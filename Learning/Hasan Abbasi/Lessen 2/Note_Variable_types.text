@@ -35,6 +35,10 @@ omid / ali == 7.8125 float
 
 String: 
 1. از کاراکترهای متنی تشکیل شده اند 
-2. از Single Quotes و Double Quotes تشکیل شده است
+2. از Single Quotes و Double Quotes تشکیل شده است  و در زمان پرینت با single quotes نمایش داده می شود
+
+نمونه های ار نوشتن کدها:
+c = 'a'b'c falsh  غلط است وقتی ما از single quotes استفاده میکنیم در داخل آن دیگر نمی توانیم از همان استفاده کنیم درست آن می شود کد زیر:
+c = 'a\'b\'c' true
 
 
