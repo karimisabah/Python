@@ -33,7 +33,12 @@ class TicTakToeGUI:
         else:
             messagebox.showerror("Invalid Move", "Cell already taken. Try again!")
 
-            
+    def check_win(self, player):
+        pass
+     
+    def is_full(self):
+        return all(all(cell != ' ' for cell in row) for row in self.board)
+
 
     def run(self):
         self.window.mainloop()
