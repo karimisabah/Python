@@ -16,10 +16,24 @@ class TicTakToeGUI:
                                    for row in range(self.boars_size)]
         for row in range(self.boars_size):
             for col in range(self.boars_size):
-                self.buttons[row][col].grid(row=row, col=col)
+                self.buttons[row][col].grid(row=row, column=col)
 
     def make_move(self, row, col):
-        pass
+        if self.board[row][col] == ' ':
+            self.board[row][col] = self.current_player
+            self.buttons[row][col].config(text=self.current_player)
+
+            if self.check_win(self.current_player):
+                pass
+            elif self.is_full():
+                pass
+            else: 
+                self.current_player = 'O' if self.current_player == 'X' else 'X'
+
+        else:
+            messagebox.showerror("Invalid Move", "Cell already taken. Try again!")
+
+            
 
     def run(self):
         self.window.mainloop()
