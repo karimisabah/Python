@@ -2,13 +2,12 @@ from tkinter import *
 import pytz
 from datetime import datetime
 
-# تابع برای به‌دست آوردن مناطق زمانی به همراه اختلاف از گرینویچ
 def get_timezones_with_offsets():
     timezone_offsets = []
-    utc = datetime.utcnow()  # زمان فعلی به صورت ناوابسته به منطقه زمانی
+    utc = datetime.utcnow()  
     for tz in pytz.all_timezones:
         timezone = pytz.timezone(tz)
-        offset = timezone.utcoffset(utc)  # محاسبه اختلاف زمانی
+        offset = timezone.utcoffset(utc)  
         if offset is not None:
             offset_hours = int(offset.total_seconds() // 3600)
             offset_minutes = int((offset.total_seconds() % 3600) // 60)
@@ -17,28 +16,24 @@ def get_timezones_with_offsets():
             timezone_offsets.append(f"{tz} ({offset_string})")
     return sorted(timezone_offsets)
 
-# تابع به‌روزرسانی لیست مناطق زمانی بر اساس جستجو
 def search_timezone(event):
     query = search_entry.get().lower()
     filtered_timezones = [tz for tz in timezones_with_offsets if query in tz.lower()]
     update_listbox(filtered_timezones)
 
-# تابع به‌روزرسانی لیست‌باکس
 def update_listbox(filtered_timezones):
     timezone_listbox.delete(0, END)
     for tz in filtered_timezones:
         timezone_listbox.insert(END, tz)
 
-# تابع برای نمایش زمان منطقه انتخاب‌شده
 def select_timezone(event):
     try:
         selection = timezone_listbox.get(timezone_listbox.curselection())
-        selected_timezone.set(selection.split(" (")[0])  # نام منطقه زمانی بدون GMT
+        selected_timezone.set(selection.split(" (")[0]) 
         update_selected_timezone()
     except TclError:
         pass
 
-# به‌روزرسانی ساعت منطقه زمانی انتخاب‌شده
 def update_selected_timezone():
     if selected_timezone.get():
         timezone = pytz.timezone(selected_timezone.get())
@@ -55,7 +50,6 @@ def update_selected_timezone():
     else:
         tzLabel.config(text="")
 
-# به‌روزرسانی زمان جاری کاربر
 def myTime():
     now = datetime.now()
     hour = now.strftime("%I")
@@ -74,28 +68,23 @@ def myTime():
     update_selected_timezone()
     myLabel.after(1000, myTime)
 
-# ایجاد پنجره اصلی
 window = Tk()
 window.title("Digital Clock with Timezones")
 window.geometry("800x600")
 
-# لیبل‌های ساعت محلی
 myLabel = Label(window, text="", font=("Calibri", 72, "bold"), fg="Yellow", bg="Gray")
 myLabel.pack()
 
 myLabel2 = Label(window, text="", font=("Calibri", 34, "bold"), fg="Yellow", bg="Purple")
 myLabel2.pack(pady=10)
 
-# لیبل ساعت منطقه انتخاب‌شده
 tzLabel = Label(window, text="", font=("Calibri", 24, "bold"), fg="White", bg="Blue")
 tzLabel.pack(pady=10)
 
-# فیلد جستجو
 search_entry = Entry(window, font=("Calibri", 14))
 search_entry.pack(pady=10)
 search_entry.bind("<KeyRelease>", search_timezone)
 
-# قاب برای لیست مناطق زمانی و اسکرول
 frame = Frame(window)
 frame.pack()
 
@@ -105,17 +94,12 @@ scrollbar.config(command=timezone_listbox.yview)
 scrollbar.pack(side=RIGHT, fill=Y)
 timezone_listbox.pack(side=LEFT, fill=BOTH)
 
-# مقداردهی اولیه لیست مناطق زمانی
 timezones_with_offsets = get_timezones_with_offsets()
 update_listbox(timezones_with_offsets)
 
-# متغیر برای منطقه زمانی انتخاب‌شده
 selected_timezone = StringVar()
 selected_timezone.set("")
 timezone_listbox.bind("<<ListboxSelect>>", select_timezone)
 
-# به‌روزرسانی زمان
 myTime()
-
-# اجرای برنامه
 window.mainloop()
