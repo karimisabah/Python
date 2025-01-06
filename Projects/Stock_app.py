@@ -12,20 +12,25 @@ tk.Label(root, text= "Buy date (YYYY-MM-DD):").pack(pady=5)
 buy_date_entry = tk.Entry(root)
 buy_date_entry.pack(pady=5)
 
+tk.Label(root, text="Symbol:").pack(pady=5)
+symbol_entry = tk.Entry(root)
+symbol_entry.pack(pady=5)
+
 tk.Label(root, text= "Buy price:").pack(pady=5)
 buy_price_entry = tk.Entry(root)
 buy_price_entry.pack(pady=5)
 
-tk.Label(root, text="Quantity of shares:").pack(pady=5)
+tk.Label(root, text="Quantity:").pack(pady=5)
 quantity_entry = tk.Entry(root)
 quantity_entry.pack(pady=5)
 
 def submit_date():
     buy_date = buy_date_entry.get()
+    symbol = (symbol_entry.get())
     buy_price = float(buy_price_entry.get())
     quantity = int(quantity_entry.get())
     
-    date = {"Buy date": [buy_date], "Buy price": [buy_price], "Quantity": [quantity]}
+    date = {"Buy date": [buy_date], "Symbol": [symbol], "Buy price": [buy_price], "Quantity": [quantity]}
     df = pd.DataFrame(date)
     df.to_csv("stock_data.cvs", mode='a', index=False, header=False)
 
