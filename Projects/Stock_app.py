@@ -4,7 +4,9 @@ import pandas as pd
 
 root = tk.Tk()
 root.title("Stock management")
-root.geometry("600x600") 
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+root.geometry(f"{screen_width}x{screen_width}") 
 
 label = tk.Label(root, text="Welcome to stock management software", font=("Calibri", 24, "bold"), fg="Yellow", bg="Gray")
 label.pack(pady=10)
