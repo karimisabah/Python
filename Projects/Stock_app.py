@@ -4,12 +4,12 @@ import pandas as pd
 
 root = tk.Tk()
 root.title("Stock management")
-root.geometry("600x400")
+root.geometry("600x600") 
 
-label = tk.Label(root, text= "Welcome to stock management software", font=("Calibri", 24, "bold"), fg= "Yellow", bg= "Gray")
+label = tk.Label(root, text="Welcome to stock management software", font=("Calibri", 24, "bold"), fg="Yellow", bg="Gray")
 label.pack(pady=10)
 
-tk.Label(root, text= "Buy date (YYYY-MM-DD):").pack(pady=5)
+tk.Label(root, text="Buy date (YYYY-MM-DD):").pack(pady=5)
 buy_date_entry = tk.Entry(root)
 buy_date_entry.pack(pady=5)
 
@@ -17,7 +17,7 @@ tk.Label(root, text="Symbol:").pack(pady=5)
 symbol_entry = tk.Entry(root)
 symbol_entry.pack(pady=5)
 
-tk.Label(root, text= "Buy price:").pack(pady=5)
+tk.Label(root, text="Buy price:").pack(pady=5)
 buy_price_entry = tk.Entry(root)
 buy_price_entry.pack(pady=5)
 
@@ -27,26 +27,39 @@ quantity_entry.pack(pady=5)
 
 def submit_date():
     buy_date = buy_date_entry.get()
-    symbol = (symbol_entry.get())
-    buy_price = float(buy_price_entry.get())
-    quantity = int(quantity_entry.get())
-    
+    symbol = symbol_entry.get()
+    try:
+        buy_price = float(buy_price_entry.get())
+        quantity = int(quantity_entry.get())
+    except ValueError:
+        tk.Label(root, text="Invalid input! Please check the buy price and quantity.", fg="red").pack(pady=10)
+        return
+
     data = {"Buy date": [buy_date], "Symbol": [symbol], "Buy price": [buy_price], "Quantity": [quantity]}
     df = pd.DataFrame(data)
-    df.to_csv("stock_data.cvs", mode='a', index=False, header=False)
 
-    print("Information saved successfully")
+    try:
+        with open("stock_data.csv", "x") as f:
+            df.to_csv(f, index=False, header=True)
+    except FileExistsError:
+        df.to_csv("stock_data.csv", mode="a", index=False, header=False)
 
-tk.Button(root, text= "Information recording", command=submit_date).pack(pady=20)
+    tk.Label(root, text="Information saved successfully.", fg="green").pack(pady=10)
+
+tk.Button(root, text="Information recording", command=submit_date, font=("Calibri", 14), bg="lightgreen").pack(pady=20)
 
 def show_date():
+    for widget in root.winfo_children():
+        if isinstance(widget, ttk.Treeview):
+            widget.destroy() 
+
     try:
-       data = pd.read_csv("stock_data.csv", names=["quantity", "Buy price", "Symbol", "Buy date"])
+        data = pd.read_csv("stock_data.csv")
     except FileNotFoundError:
         tk.Label(root, text="Data file not found! Please enter the information first.", fg="red").pack(pady=10)
         return
 
-    tree = ttk.Treeview(root, columns=("quantity", "Buy price", "Symbol", "Buy date"), show="headings", height=15)
+    tree = ttk.Treeview(root, columns=("Buy date", "Symbol", "Buy price", "Quantity"), show="headings", height=10)
     tree.pack(fill="both", expand=True, padx=20, pady=20)
 
     tree.heading("Buy date", text="Buy date")
@@ -54,16 +67,17 @@ def show_date():
     tree.heading("Buy price", text="Buy price")
     tree.heading("Quantity", text="Quantity")
 
-    tree.column("Buy date", anchor="center", width=200)
-    tree.column("Symbol", anchor="center", width=150)
+    tree.column("Buy date", anchor="center", width=150)
+    tree.column("Symbol", anchor="center", width=100)
     tree.column("Buy price", anchor="center", width=100)
-    tree.column("Quantity", anchor="center", width=50)
+    tree.column("Quantity", anchor="center", width=100)
 
     for _, row in data.iterrows():
         tree.insert("", "end", values=(row["Buy date"], row["Symbol"], row["Buy price"], row["Quantity"]))
 
-btn = tk.Button(root, text="View History", command=show_date, font=("Calibri", 12))
-btn.pack(pady=20)
+    tk.Label(root, text="Table updated.", fg="blue").pack(pady=5)
 
+btn = tk.Button(root, text="View History", command=show_date, font=("Calibri", 14), bg="lightblue")
+btn.pack(pady=20)
 
 root.mainloop()
