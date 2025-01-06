@@ -1,4 +1,5 @@
 import tkinter as tk
+import pandas as pd
 
 root = tk.Tk()
 root.title("Stock management")
@@ -23,9 +24,14 @@ def submit_date():
     buy_date = buy_date_entry.get()
     buy_price = float(buy_price_entry.get())
     quantity = int(quantity_entry.get())
-    print(f"Buy date: {buy_date}, Price: {buy_price}, quantity: {quantity}")
+    
+    date = {"Buy date": [buy_date], "Buy price": [buy_price], "Quantity": [quantity]}
+    df = pd.DataFrame(date)
+    df.to_csv("stock_data.cvs", mode='a', index=False, header=False)
 
-tk.Button(root, text= "Information recording", command= submit_date).pack(pady=20)
+    print("Information saved successfully")
+
+tk.Button(root, text= "Information recording", command=submit_date).pack(pady=20)
 
 
 
