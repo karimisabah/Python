@@ -11,15 +11,15 @@ root.geometry(f"{screen_width}x{screen_height}")
 label = tk.Label(root, text="Welcome to Stock Management Software", font=("Calibri", 24, "bold"), fg="Yellow", bg="Gray")
 label.pack(pady=10)
 
-tk.Label(root, text="Buy Date (YYYY-MM-DD):").pack(pady=5)
-buy_date_entry = tk.Entry(root)
-buy_date_entry.pack(pady=5)
+tk.Label(root, text="Date (YYYY-MM-DD):").pack(pady=5)
+date_entry = tk.Entry(root)
+date_entry.pack(pady=5)
 
 tk.Label(root, text="Symbol:").pack(pady=5)
 symbol_entry = tk.Entry(root)
 symbol_entry.pack(pady=5)
 
-tk.Label(root, text="Buy Price:").pack(pady=5)
+tk.Label(root, text="Buy:").pack(pady=5)
 buy_price_entry = tk.Entry(root)
 buy_price_entry.pack(pady=5)
 
@@ -28,7 +28,7 @@ quantity_entry = tk.Entry(root)
 quantity_entry.pack(pady=5)
 
 def submit_data():
-    buy_date = buy_date_entry.get()
+    date = date_entry.get()
     symbol = symbol_entry.get()
     try:
         buy_price = float(buy_price_entry.get())
@@ -37,7 +37,7 @@ def submit_data():
         tk.Label(root, text="Invalid input! Please check the buy price and quantity.", fg="red").pack(pady=10)
         return
 
-    data = {"Buy Date": [buy_date], "Symbol": [symbol], "Buy Price": [buy_price], "Quantity": [quantity]}
+    data = {"Date": [date], "Symbol": [symbol], "Buy": [buy_price], "Quantity": [quantity]}
     df = pd.DataFrame(data)
 
     try:
@@ -61,21 +61,21 @@ def show_data():
         tk.Label(root, text="Data file not found! Please enter information first.", fg="red").pack(pady=10)
         return
 
-    tree = ttk.Treeview(root, columns=("Buy Date", "Symbol", "Buy Price", "Quantity"), show="headings", height=10)
+    tree = ttk.Treeview(root, columns=("Date", "Symbol", "Buy", "Quantity"), show="headings", height=10)
     tree.pack(fill="both", expand=True, padx=20, pady=20)
 
-    tree.heading("Buy Date", text="Buy Date")
+    tree.heading("Date", text="Date")
     tree.heading("Symbol", text="Symbol")
-    tree.heading("Buy Price", text="Buy Price")
+    tree.heading("Buy", text="Buy")
     tree.heading("Quantity", text="Quantity")
 
-    tree.column("Buy Date", anchor="center", width=150)
+    tree.column("Date", anchor="center", width=150)
     tree.column("Symbol", anchor="center", width=100)
-    tree.column("Buy Price", anchor="center", width=100)
+    tree.column("Buy", anchor="center", width=100)
     tree.column("Quantity", anchor="center", width=100)
 
     for _, row in data.iterrows():
-        tree.insert("", "end", values=(row["Buy Date"], row["Symbol"], row["Buy Price"], row["Quantity"]))
+        tree.insert("", "end", values=(row["Date"], row["Symbol"], row["Buy"], row["Quantity"]))
 
     tk.Label(root, text="Table updated.", fg="blue").pack(pady=5)
 
